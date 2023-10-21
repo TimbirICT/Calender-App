@@ -87,7 +87,7 @@ $(function () {
     console.log(timeLabel);
   }
 });
-
+  
 $(function () {
   $(".saveBtn").on("click", function () {
     var timeBlockId = $(this).closest(".time-block").attr("id");
