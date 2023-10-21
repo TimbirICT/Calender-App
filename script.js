@@ -121,7 +121,7 @@ $(function () {
     });
   }
   
-
+ 
 updateHourStyles();
 
   function loadUserInput() {
