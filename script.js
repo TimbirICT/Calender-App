@@ -69,12 +69,18 @@ $(function () {
     $(".container-lg").append(timeBlock);
   }
 
-  for (var hour = 12; hour <= 19; hour++) {
+  for (var hour = 12; hour <= 17; hour++) {
     var amPm = "PM";
     var displayHour = hour <= 12 ? hour : hour - 12;
+    if (hour > 12) {
+      amPm = "PM";
+      displayHour += 12;
+    }
     if (displayHour === 0) {
       displayHour = 12;
     }
+    
+
     var timeLabel = displayHour + amPm;
     var timeBlock = createTimeBlock(timeLabel);
     $(".container-lg").append(timeBlock);
@@ -90,14 +96,21 @@ $(function () {
   });
 
   function updateHourStyles() {
-    var currentHour = dayjs().hour();
-    currentHour = (currentHour + 12) % 12 || 12;
-
+    var currentHour = dayjs().hour(); // Get the current hour in 24-hour format
+  
     $(".time-block").each(function () {
       var blockHour = parseInt($(this).attr("id").split("-")[1]);
-
+      var displayHour = blockHour; // Copy the block hour to display
+  
+      if (blockHour > 12) {
+        displayHour -= 12; // Convert values greater than 12 to 1-12 format
+      }
+  
+      // Set the text of the hour column to displayHour
+      $(this).find(".hour").text(displayHour + (blockHour >= 12 ? " PM" : " AM"));
+  
       $(this).removeClass("past present future");
-
+  
       if (blockHour > currentHour) {
         $(this).addClass("future");
       } else if (blockHour === currentHour) {
@@ -107,8 +120,9 @@ $(function () {
       }
     });
   }
+  
 
-  updateHourStyles();
+updateHourStyles();
 
   function loadUserInput() {
     $(".time-block").each(function () {
